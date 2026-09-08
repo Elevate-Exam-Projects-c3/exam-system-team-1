@@ -1,11 +1,12 @@
-using System.Reflection;
-using FluentValidation;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
 using exam_system.Domain.Entities.Diplomas;
+using exam_system.Features.Shared;
 using exam_system.Persistence;
 using exam_system.Persistence.Context;
 using exam_system.Persistence.DataAccess;
+using FluentValidation;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,7 @@ builder.Services.AddMediatR(cfg =>
 });
 
 builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 var app = builder.Build();
 
