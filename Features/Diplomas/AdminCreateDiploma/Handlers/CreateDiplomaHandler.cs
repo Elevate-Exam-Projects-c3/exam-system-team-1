@@ -1,0 +1,31 @@
+﻿using exam_system.Domain.Entities.Diplomas;
+using exam_system.Features.Diplomas.AdminCreateDiploma.Commands;
+using exam_system.Features.Shared;
+using exam_system.Persistence.DataAccess;
+using MediatR;
+
+namespace exam_system.Features.Diplomas.AdminCreateDiploma.Handlers
+{
+    public class CreateDiplomaHandler : IRequestHandler<CreateDiplomaCommand, RequestResponse<Guid>>
+    {
+        private readonly IGenericRepository<Diploma> _repository;
+        private readonly IUnitOfWork _unitOfWork;
+
+        public CreateDiplomaHandler(IGenericRepository<Diploma> repository,IUnitOfWork unitOfWork)
+        {
+            _repository = repository;
+            _unitOfWork = unitOfWork;
+        }
+        public async Task<RequestResponse<Guid>> Handle(CreateDiplomaCommand request, CancellationToken cancellationToken)
+        {
+            var diploma = new Diploma
+            {
+                Title = request.title,
+                Description = request.description
+            };
+            await _repository.AddAsync(diploma);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            return RequestResponse<Guid>.Created(diploma.Id);
+        }
+    }
+}
