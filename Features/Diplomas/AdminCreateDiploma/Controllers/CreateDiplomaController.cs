@@ -7,11 +7,11 @@ namespace exam_system.Features.Diplomas.AdminCreateDiploma.Controllers
 {
     [ApiController]
     [Route("api/admin/diplomas")]
-    public class AdminDiplomasController : Controller
+    public class CreateDiplomaController : Controller
     {
         private readonly IMediator _mediator;
 
-        public AdminDiplomasController(IMediator mediator) => _mediator = mediator;
+        public CreateDiplomaController(IMediator mediator) => _mediator = mediator;
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateDiplomaCommand command)
