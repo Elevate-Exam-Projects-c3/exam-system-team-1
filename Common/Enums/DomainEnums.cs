@@ -27,3 +27,10 @@ public enum AttemptStatus
     Submitted = 2,
     TimedOut = 3
 }
+public enum ErrorType 
+{
+    Validation,
+    NotFound,
+    Conflict,
+    Unexpected
+}
