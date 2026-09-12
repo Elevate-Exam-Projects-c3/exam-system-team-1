@@ -1,5 +1,6 @@
 using exam_system.Domain.Entities.Diplomas;
 using exam_system.Domain.Entities.Identity;
+using exam_system.Features.Identity.Register;
 using exam_system.Features.Shared;
 using exam_system.Persistence;
 using exam_system.Persistence.Context;
@@ -45,6 +46,7 @@ builder.Services.AddRateLimiter(options =>
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JWT"));
 //Allow DependencyInjection for Idenitty
 builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddScoped<IEmailService,EmailService>();
 //Jwt AuthenticationService
 builder.Services.AddAuthentication(options =>
 {
