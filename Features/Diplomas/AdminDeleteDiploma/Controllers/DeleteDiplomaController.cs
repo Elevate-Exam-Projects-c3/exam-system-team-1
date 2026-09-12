@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace exam_system.Features.Diplomas.AdminDeleteDiploma.Controllers
 {
     [ApiController]
-    [Route ("/api/admin/diploma")]
+    [Route ("/api/admin/diplomas")]
     public class DeleteDiplomaController : Controller
     {
         private readonly IMediator _mediator;
@@ -16,8 +16,9 @@ namespace exam_system.Features.Diplomas.AdminDeleteDiploma.Controllers
             _mediator = mediator;
         }
         [HttpDelete ("{id:guid}")]
-        public async Task<IActionResult> Delete([FromBody] DeleteDiplomaCommand command)
+        public async Task<IActionResult> Delete(Guid id)
         {
+            var command = new DeleteDiplomaCommand { Id = id };
             var result = await _mediator.Send(command);
             return StatusCode(result.StatusCode ,EndpointResponse<Guid>.FromResult(result));
         }

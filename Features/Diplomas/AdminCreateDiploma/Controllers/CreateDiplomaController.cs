@@ -14,8 +14,14 @@ namespace exam_system.Features.Diplomas.AdminCreateDiploma.Controllers
         public CreateDiplomaController(IMediator mediator) => _mediator = mediator;
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateDiplomaCommand command)
+        public async Task<IActionResult> Create([FromBody] CreateDiplomaViewModel model)
         {
+            var command = new CreateDiplomaCommand
+            {
+                title = model.Title,
+                description = model.Description
+            };
+
             var result = await _mediator.Send(command);
             return StatusCode(result.StatusCode, EndpointResponse<Guid>.FromResult(result));
         }

@@ -2,6 +2,7 @@
 using MediatR;
 using exam_system.Features.Diplomas.AdminUpdateDiploma.Commands;
 using exam_system.Features.Shared;
+using exam_system.Features.Diplomas.AdminUpdateDiploma.ViewModels;
 
 namespace exam_system.Features.Diplomas.AdminUpdateDiploma.Controllers
 {
@@ -16,9 +17,15 @@ namespace exam_system.Features.Diplomas.AdminUpdateDiploma.Controllers
             _mediatR = mediatR;
         }
         [HttpPut ("{id :guid}")]
-        public async Task<IActionResult> Update ([FromBody] UpdateDiplomaCommand command)
+        public async Task<IActionResult> Update (Guid id,[FromBody] UpdateDiplomaViewModel model)
         {
-          var result = await _mediatR.Send(command);
+            var command = new UpdateDiplomaCommand
+            {
+                Id = id,
+                title = model.Title,
+                description = model.Description
+            };
+            var result = await _mediatR.Send(command);
             return StatusCode(result.StatusCode, EndpointResponse<Guid>.FromResult(result));
         }
     }

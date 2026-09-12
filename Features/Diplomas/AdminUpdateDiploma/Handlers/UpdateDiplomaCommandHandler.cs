@@ -9,12 +9,12 @@ using MediatR;
 
 namespace exam_system.Features.Diplomas.AdminCreateDiploma.Handlers
 {
-    public class UpdateDiplomaHandler : IRequestHandler<UpdateDiplomaCommand, RequestResponse<Guid>>
+    public class UpdateDiplomaCommandHandler : IRequestHandler<UpdateDiplomaCommand, RequestResponse<Guid>>
     {
         private readonly IGenericRepository<Diploma> _repository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateDiplomaHandler(IGenericRepository<Diploma> repository, IUnitOfWork unitOfWork)
+        public UpdateDiplomaCommandHandler(IGenericRepository<Diploma> repository, IUnitOfWork unitOfWork)
         {
             _repository = repository;
             _unitOfWork = unitOfWork;

@@ -3,8 +3,8 @@ using MediatR;
 
 namespace exam_system.Features.Diplomas.AdminDeleteDiploma.Commands
 {
-    public class DeleteDiplomaCommand : IRequest<RequestResponse<Guid>>
+    public record DeleteDiplomaCommand : IRequest<RequestResponse<Guid>>
     {
-       public Guid Id { set; get; }
+       public Guid Id { get; set; }
     }
 }
