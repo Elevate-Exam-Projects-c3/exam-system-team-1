@@ -1,5 +1,6 @@
 ﻿using exam_system.Features.Identity.Register.Commands;
 using exam_system.Features.Shared;
+using exam_system.ModelVM;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,9 +14,16 @@ namespace exam_system.Features.Identity.Register.Controllers
     public class AccountController(IMediator mediator) : ControllerBase
     {
         [HttpPost("Register")]
-        public async Task<IActionResult> Register(RegisterDto model) 
+        public async Task<IActionResult> Register(RegisterModelVM model) 
         {
-           var result =  await mediator.Send(new RegisterCommand(model.FullName, model.Email, model.Password));
+            var registerDto = new RegisterDto()
+            {
+                FullName = model.FullName,
+                Email = model.Email,
+                Password = model.Password
+            };
+           var result =  await mediator.Send(new RegisterCommand(registerDto.FullName, registerDto.Email, registerDto.Password));
+
             if(result)
                 return Created();
             return Conflict();

@@ -1,11 +1,12 @@
 ﻿namespace exam_system.Features.Shared
 {
-    public class OptionsPattern
+    public class JwtOptions
     {
 
         public string Issuer { get; set; }
-        public string Audeience { get; set; }
+        public string Audience { get; set; }
         public string Key { get; set; }
+        public int ExpirationInMinutes { get; set; }
 
     }
 }

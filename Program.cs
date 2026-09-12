@@ -40,8 +40,9 @@ builder.Services.AddRateLimiter(options =>
     });
 });
 //Options Pattern
-var optionsPattern = builder.Configuration.GetSection("JWT").Get<OptionsPattern>();
-builder.Services.AddSingleton(optionsPattern);
+
+
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JWT"));
 //Allow DependencyInjection for Idenitty
 builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
 //Jwt AuthenticationService
@@ -56,11 +57,11 @@ builder.Services.AddAuthentication(options =>
     options.TokenValidationParameters = new TokenValidationParameters()
     {
         ValidateIssuer = true,
-        ValidIssuer = optionsPattern.Issuer,
+        ValidIssuer =builder.Configuration["JWT:Issuer"],
         ValidateAudience = true,
-        ValidAudience = optionsPattern.Audeience,
+        ValidAudience = builder.Configuration["JWT:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(
-        Encoding.UTF8.GetBytes(optionsPattern.Key))
+        Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
 
     };
 }

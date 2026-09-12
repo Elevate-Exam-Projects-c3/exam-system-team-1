@@ -1,5 +1,6 @@
 ﻿using exam_system.Features.Identity.Login.Commands;
 using exam_system.Features.Shared;
+using exam_system.ModelVM;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace exam_system.Features.Identity.Login.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     public class LoginController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -21,22 +22,18 @@ namespace exam_system.Features.Identity.Login.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login(LoginDto model)
+        public async Task<IActionResult> Login(LoginModelVM model)
         {
-            var result = await _mediator.Send(new LoginCommand(model.Email, model.Password));
+            var loginDto = new LoginDto()
+            {
+                Email = model.Email,
+                Password = model.Password
+            };
+            var result = await _mediator.Send(new LoginCommand(loginDto.Email, loginDto.Password));
 
-            if (string.IsNullOrEmpty(result))
-            {
-                return BadRequest("Email or Password is not correct!");
-            }
-            else if (result == "A User Cann't have more than one role")
-            {
-                return BadRequest("The user Must have one role only");
-            }
-            else
-            {
+            
                 return Ok(result);
-            }
+            
         }
     }
 }
