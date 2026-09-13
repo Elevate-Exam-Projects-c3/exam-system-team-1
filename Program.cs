@@ -7,6 +7,8 @@ using exam_system.Persistence.Context;
 using exam_system.Persistence.DataAccess;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.RateLimiting;
@@ -30,6 +32,7 @@ builder.Services.AddMediatR(cfg =>
 });
 
 builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 //Adding Rate Limitting Service
 builder.Services.AddRateLimiter(options =>
