@@ -19,8 +19,9 @@ namespace exam_system.Features.Diplomas.EnrollDiploma.Controllers
         {
             var command = new EnrollDiplomaCommand
             {
-                DiplomaId = diplomaId,
-                StudentId = model.StudentId
+                StudentId = model.StudentId,
+                DiplomaId = diplomaId
+                
             };
 
             var result = await _mediator.Send(command);
